@@ -1,0 +1,38 @@
+<mat-card>
+    <mat-card-header>
+        <img src="{{authService.currentUser.image | static}}" mat-card-avatar alt="">
+        <mat-card-title>
+            Update {{authService.currentUser.first_name}} {{authService.currentUser.last_name}}
+        </mat-card-title>
+        <mat-card-subtitle>
+            Balance: <i class="fa fa-usd"></i>{{authService.currentUser.balance}}
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <form (ngSubmit)="onUpdate()" [formGroup]="updateForm" style="max-width: 300px;">
+            <mat-form-field class="w-100">
+                <mat-label>Account Number</mat-label>
+                <input type="number" formControlName="id" matInput>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+                <mat-label>Current password</mat-label>
+                <input type="password" formControlName="currentPassword" matInput>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+                <mat-label>New password</mat-label>
+                <input type="password" formControlName="newPassword" matInput>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+                <mat-label>Password confirmation</mat-label>
+                <input type="password" formControlName="confirmPassword" matInput>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+                <mat-label>New email</mat-label>
+                <input type="email" formControlName="newEmail" matInput id="newEmail" floatLabel="auto">
+            </mat-form-field>
+            <button class="btn btn-outline-primary" type="submit" [disabled]="!updateForm.valid">
+        <i class="ion ion-log-in"></i>update
+        </button>
+        </form>
+    </mat-card-content>
+</mat-card>

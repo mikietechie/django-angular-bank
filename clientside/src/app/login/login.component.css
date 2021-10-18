@@ -1,0 +1,12 @@
+.container-fluid {
+    width: 300px;
+}
+
+@media (max-width: 360px) {
+    .container-fluid {
+        width: 230px;
+    }
+    form {
+        padding: opx;
+    }
+}

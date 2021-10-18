@@ -1,0 +1,45 @@
+<mat-card style="width: 300px;">
+    <mat-card-header *ngIf="authService.currentUser.id === transaction.debtor.id">
+        <img src="{{transaction.creditor.image | static}}" mat-card-avatar alt="">
+        <mat-card-title>
+            From {{transaction.creditor.username}}
+        </mat-card-title>
+        <mat-card-subtitle>
+            Debit Transaction <i class="fa fa-2x fa-plus-circle text-success"></i>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-header *ngIf="authService.currentUser.id === transaction.creditor.id">
+        <img src="{{transaction.debtor.image | static}}" mat-card-avatar alt="">
+        <mat-card-title>
+            To {{transaction.debtor.username}}
+        </mat-card-title>
+        <mat-card-subtitle>
+            Credit Transaction <i class="fa fa-2x fa-minus-circle text-danger"></i>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <!--<img src="{{authService.currentUser.image | static}}" mat-card-image alt="">-->
+    <mat-card-content>
+        <mat-grid-list cols="2" rowHeight="fit" style="height: 100px;" gutterSize="10px">
+            <mat-grid-tile class="p-2">
+                amount: <i class="fa fa-usd text-warning"></i>{{transaction.amount}}
+            </mat-grid-tile>
+            <mat-grid-tile class="p-2">
+                charges: <i class="fa fa-usd text-warning"></i>{{transaction.charges}}
+            </mat-grid-tile>
+            <mat-grid-tile class="p-2">
+                <i class="fa fa-calendar text-success">: </i>{{transaction.date}}
+            </mat-grid-tile>
+            <mat-grid-tile class="p-2">
+                <i class="fa fa-clock-o text-success">: </i>{{transaction.time}}
+            </mat-grid-tile>
+            <mat-grid-tile colspan="2" *ngIf="transaction.description" class="p-2">
+                <i class="fa fa-list text-success"></i>: {{transaction.description}}
+            </mat-grid-tile>
+            <mat-grid-tile colspan="2" class="p-2 mt-2 bg-faded">
+                New Balance: <i class="fa fa-usd text-warning"></i>
+                <i *ngIf="authService.currentUser.id === transaction.debtor.id">{{transaction.debtorBalance}}</i>
+                <i *ngIf="authService.currentUser.id === transaction.creditor.id">{{transaction.creditorBalance}}</i>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-card-content>
+</mat-card>

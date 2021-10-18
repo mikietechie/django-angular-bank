@@ -1,0 +1,18 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <form [formGroup]="loginForm" *ngIf="!showSpinner" class="w-100">
+                <mat-form-field class="w-100">
+                    <mat-label>Account Number</mat-label>
+                    <input type="number" formControlName="id" matInput>
+                </mat-form-field>
+                <mat-form-field class="w-100">
+                    <mat-label>Password</mat-label>
+                    <input type="password" formControlName="password" matInput>
+                </mat-form-field>
+                <button class="btn btn-outline-success float-right mx-3" type="submit" (click)="login()" [disabled]="!loginForm.valid"><i class="ion ion-log-in"></i>Login</button>
+            </form>
+            <mat-spinner style="margin: 50px auto;" *ngIf="showSpinner"></mat-spinner>
+        </div>
+    </div>
+</div>

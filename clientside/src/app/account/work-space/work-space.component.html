@@ -1,0 +1,173 @@
+<mat-tab-group>
+    <mat-tab label="All Transactions">
+        <h1 class="text-center text-success">All Your Transactions<span class="badge badge-info">{{transactionStatistics.allTransactionsNumber}}</span></h1>
+        <mat-divider></mat-divider>
+        <!--
+      <mat-form-field>
+          <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Filter">
+      </mat-form-field>
+      -->
+        <mat-spinner *ngIf="showAllTransactionsLoadingSpinner" style="margin: 150px auto;"></mat-spinner>
+        <div class="mat-elevation-z10" *ngIf="!showAllTransactionsLoadingSpinner">
+            <mat-table [dataSource]="allTransactionsDataSource" matSort class="mat-elevation-z10">
+                <ng-container matColumnDef="transactionID">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+                    <mat-cell *matCellDef="let transaction">{{transaction.transactionID}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="with">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>With</mat-header-cell>
+                    <mat-cell *matCellDef="let transaction">
+                        <span *ngIf="getTransactionType(transaction)">{{transaction.creditor.username}}</span>
+                        <span *ngIf="!getTransactionType(transaction)">{{transaction.debtor.username}}</span>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="transactionType">
+                    <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+                    <mat-cell *matCellDef="let transaction">
+                        <i class="fa fa-2x fa-plus-square-o text-success" *ngIf="getTransactionType(transaction)"></i>
+                        <i class="fa fa-2x fa-minus-square-o text-danger" *ngIf="!getTransactionType(transaction)"></i>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="amount">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Amount</mat-header-cell>
+                    <mat-cell *matCellDef="let transaction">{{transaction.amount}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="newBalance">
+                    <mat-header-cell *matHeaderCellDef>New Balance</mat-header-cell>
+                    <mat-cell *matCellDef="let transaction">
+                        <i *ngIf="getTransactionType(transaction)">{{transaction.debtorBalance}}</i>
+                        <i *ngIf="!getTransactionType(transaction)">{{transaction.creditorBalance}}</i>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="allTransactionsTableDisplayedColumns"></mat-header-row>
+                <mat-row (click)="openViewTransactionDialog(row)" *matRowDef="let row; columns: allTransactionsTableDisplayedColumns"></mat-row>
+            </mat-table>
+            <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator>
+        </div>
+    </mat-tab>
+    <mat-tab label="Debit Transactions">
+        <h1 class="text-center text-success">Credit Transactions<span class="badge badge-info">{{transactionStatistics.debitTransactionsNumber}}</span></h1>
+        <mat-divider></mat-divider>
+        <!--
+      <mat-form-field>
+          <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Filter">
+      </mat-form-field>
+      -->
+        <mat-spinner *ngIf="showAllTransactionsLoadingSpinner" style="margin: 150px auto;"></mat-spinner>
+        <div class="mat-elevation-z10" *ngIf="!showAllTransactionsLoadingSpinner">
+            <mat-table [dataSource]="debitTransactionsDataSource" matSort class="mat-elevation-z10">
+                <ng-container matColumnDef="transactionID">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+                    <mat-cell *matCellDef="let transaction">{{transaction.transactionID}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="creditor">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Creditor</mat-header-cell>
+                    <mat-cell *matCellDef="let transaction">
+                        <span>{{transaction.creditor.username}}</span>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="amount">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Amount</mat-header-cell>
+                    <mat-cell *matCellDef="let transaction">{{transaction.amount}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="newBalance">
+                    <mat-header-cell *matHeaderCellDef>New Balance</mat-header-cell>
+                    <mat-cell *matCellDef="let transaction">
+                        <i>{{transaction.debtorBalance}}</i>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="debitTransactionsTableDisplayedColumns"></mat-header-row>
+                <mat-row (click)="openViewTransactionDialog(row)" *matRowDef="let row; columns: debitTransactionsTableDisplayedColumns"></mat-row>
+            </mat-table>
+            <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator>
+        </div>
+    </mat-tab>
+    <mat-tab label="Credit Transactions">
+        <h1 class="text-center text-success">Credit Transactions<span class="badge badge-info">{{transactionStatistics.creditTransactionsNumber}}</span></h1>
+        <mat-divider></mat-divider>
+        <!--
+      <mat-form-field>
+          <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Filter">
+      </mat-form-field>
+      -->
+        <mat-spinner *ngIf="showAllTransactionsLoadingSpinner" style="margin: 150px auto;"></mat-spinner>
+        <div class="mat-elevation-z10" *ngIf="!showAllTransactionsLoadingSpinner">
+            <mat-table [dataSource]="creditTransactionsDataSource" matSort class="mat-elevation-z10">
+                <ng-container matColumnDef="transactionID">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+                    <mat-cell *matCellDef="let transaction">{{transaction.transactionID}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="debtor">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Debtor</mat-header-cell>
+                    <mat-cell *matCellDef="let transaction">
+                        <span>{{transaction.debtor.username}}</span>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="amount">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Amount</mat-header-cell>
+                    <mat-cell *matCellDef="let transaction">{{transaction.amount}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="newBalance">
+                    <mat-header-cell *matHeaderCellDef>New Balance</mat-header-cell>
+                    <mat-cell *matCellDef="let transaction">
+                        <i>{{transaction.creditorBalance}}</i>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="creditTransactionsTableDisplayedColumns"></mat-header-row>
+                <mat-row (click)="openViewTransactionDialog(row)" *matRowDef="let row; columns: creditTransactionsTableDisplayedColumns"></mat-row>
+            </mat-table>
+            <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator>
+        </div>
+    </mat-tab>
+    <mat-tab label="New Transaction">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 offset-md-3 d-inline-flex justify-content-center">
+                    <form [formGroup]="transactForm" class="d-block pr-5">
+                        <mat-form-field class="w-100">
+                            <mat-select formControlName="debtor" placeholder="Recipient">
+                                <mat-option>None</mat-option>
+                                <ng-container *ngFor="let debtor of potentialDebtors">
+                                    <mat-option value="{{debtor.id}}">
+                                        <img src="{{debtor.image | static}}" style="width: 40px;height: 35px;border-radius: 40%;"> {{debtor.username}} #{{debtor.id}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-radio-group class="w-100 my-1" formControlName="creditor">
+                            <mat-radio-button value="{{authService.currentUser.id}}" class="mr-5 mb-2" checked>Acc #{{authService.currentUser.id}}</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-form-field class="w-100">
+                            <mat-label>Amount</mat-label>
+                            <input type="number" matInput formControlName="amount" [max]="authService.currentUser.balance">
+                        </mat-form-field>
+                        <mat-form-field class="w-100">
+                            <mat-label>Purpose</mat-label>
+                            <textarea matInput formControlName="purpose"></textarea>
+                        </mat-form-field>
+                        <mat-form-field class="w-100">
+                            <mat-label>P&$$W0RD</mat-label>
+                            <input type="password" matInput formControlName="password">
+                        </mat-form-field>
+                        <div class="w-100">
+                            <button class="float-left" type="reset" class="btn btn-outline-secondary" id="resetTransactionFormButton"><i class="fa fa-trash-o"></i>clear</button>
+                            <button class="float-left" type="submit" [disabled]="!transactForm.valid" mat-raised-button class="btn btn-outline-success" (click)="transact()">
+                Transact <i class="fa fa-send-0"></i>
+              </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,44 @@
+<mat-sidenav-container>
+    <mat-sidenav #sideNav>
+        <mat-card>
+            <mat-card-header>
+                <img src="{{authService.currentUser.image | static}}" mat-card-avatar alt="">
+                <mat-card-title>
+                    {{authService.currentUser.first_name}} {{authService.currentUser.last_name}}
+                </mat-card-title>
+                <mat-card-subtitle>
+                    Balance: <i class="fa fa-usd"></i>{{authService.currentUser.balance}}
+                </mat-card-subtitle>
+            </mat-card-header>
+            <img src="{{authService.currentUser.image | static}}" mat-card-image alt="">
+            <mat-card-content>
+                <mat-list>
+                    <mat-list-item>Account username: {{authService.currentUser.username}}</mat-list-item>
+                    <mat-list-item>Account type: {{authService.currentUser.account_type}}</mat-list-item>
+                    <mat-list-item>Account email: {{authService.currentUser.email}}</mat-list-item>
+                </mat-list>
+            </mat-card-content>
+            <mat-card-footer>
+                <mat-card-actions align="end">
+                    <button mat-raised-button (click)="authService.logout()" class="btn btn-outline-warning">
+                    <i class="ion ion-log-out"></i>Logout
+                  </button>
+                    <button mat-raised-button (click)="openUpdateProfileDialog()" class="btn btn-outline-info">
+                    <i class="ion ion-edit"></i>Update
+                  </button>
+                </mat-card-actions>
+            </mat-card-footer>
+        </mat-card>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar class="justify-content-between" color="primary">
+            <div>
+                <span class="badge badge-success"><i class="fa fa-usd"></i>{{authService.currentUser.balance}}</span>
+            </div>
+            <button mat-raised-button (click)="sideNav.toggle()">
+              <i class="ion ion-android-menu"></i>
+            </button>
+        </mat-toolbar>
+        <app-work-space></app-work-space>
+    </mat-sidenav-content>
+</mat-sidenav-container>

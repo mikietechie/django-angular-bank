@@ -1,0 +1,26 @@
+<mat-toolbar class="justify-content-between fixed-top">
+    <h1 class="text-center display-1"><i class="fa fa-2x fa-bank"></i>Sahara Bank</h1>
+    <div class="hidden-md-down">
+        <button mat-stroked-button class="btn btn-outline-primary mr-2" (click)="openLoginDialog()"><i class="fa fa-sign-in"></i>Sign In</button>
+        <a mat-stroked-button class="btn btn-outline-primary mr-2" href="{{adminURL}}"><i class="ion ion-ios-settings-strong"></i>Teller</a>
+    </div>
+    <div class="hidden-lg-up">
+        <button mat-mini-fab color="accent" [matMenuTriggerFor]="mainNavMenu"><i class="ion ion-android-menu"></i></button>
+    </div>
+</mat-toolbar>
+<mat-menu #mainNavMenu="matMenu">
+    <mat-divider class="mb-1"></mat-divider>
+    <button mat-menu-item (click)="openLoginDialog()"><i class="fa fa-sign-in"></i>Sign In</button>
+    <mat-divider></mat-divider>
+    <a mat-menu-item href="{{adminURL}}"><i class="ion ion-ios-settings-strong"></i>Teller</a>
+</mat-menu>
+
+<app-carousel></app-carousel>
+<app-featured-services></app-featured-services>
+
+<div class="w-100" style="min-height: 64px;"></div>
+<mat-toolbar class="w-100 fixed-bottom">
+    <span class="mx-auto">
+      <i class="fa fa-copyright"></i>Syntax Sahara Software 2020
+    </span>
+</mat-toolbar>
